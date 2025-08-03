@@ -1,32 +1,48 @@
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          netflix:
-            eureka: DEBUG
-    com:
-      netflix:
-        discovery: DEBUG
-        eureka: DEBUG
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
-    prefer-ip-address: 'true'
-    lease-renewal-interval-in-seconds: '10'
-    lease-expiration-duration-in-seconds: '20'
-  client:
-    register-with-eureka: 'true'
-    registry-fetch-interval-seconds: '5'
-    instance-info-replication-interval-seconds: '5'
-    healthcheck:
-      enabled: 'true'
-    fetch-registry: 'true'
-    initial-instance-info-replication-interval-seconds: '5'
-    serviceUrl:
-      defaultZone: http://admin:1234@localhost:8761/eureka/
+server:
+  port: '8765'
 spring:
   application:
     name: apigateway
-server:
-  port: '8765'
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:http://localhost:8888
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/member/**
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        cloud:
+#          netflix:
+#            eureka: DEBUG
+#    com:
+#      netflix:
+#        discovery: DEBUG
+#        eureka: DEBUG
+#eureka:
+#  instance:
+#    instance-id: ${spring.application.name}:${random.value}
+#    prefer-ip-address: 'true'
+#    lease-renewal-interval-in-seconds: '10'
+#    lease-expiration-duration-in-seconds: '20'
+#  client:
+#    register-with-eureka: 'true'
+#    registry-fetch-interval-seconds: '5'
+#    instance-info-replication-interval-seconds: '5'
+#    healthcheck:
+#      enabled: 'true'
+#    fetch-registry: 'true'
+#    initial-instance-info-replication-interval-seconds: '5'
+#    serviceUrl:
+#      defaultZone: http://admin:1234@localhost:8761/eureka/
